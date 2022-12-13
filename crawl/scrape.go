@@ -28,7 +28,7 @@ type (
 		// could not make request or if the status code is not 200.
 		// Returns errors.INTERNAL if the document could not be parsed
 		// body could not be read.
-		Scrape(url, path string) (string, error)
+		Scrape(url, selector string) (string, error)
 	}
 	// Content represents the data returned by the
 	// scrape of a URL.

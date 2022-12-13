@@ -45,16 +45,16 @@ type (
 // a specified path.
 // Returns an error if the lookup failed or the yaml
 // could not be unmarshalled.
-func Load(path string) (Config, error) {
+func Load(path string) (*Config, error) {
 	const op = "Configuration.Load"
 	bytes, err := os.ReadFile(path)
 	if err != nil {
-		return Config{}, errors.NewInvalid(err, "Error finding configuration path with the path: "+path, op)
+		return nil, errors.NewInvalid(err, "Error finding configuration path with the path: "+path, op)
 	}
-	config := Config{}
-	err = yaml.Unmarshal(bytes, &config)
+	config := &Config{}
+	err = yaml.Unmarshal(bytes, config)
 	if err != nil {
-		return Config{}, errors.NewInvalid(err, "Error loading configuration", op)
+		return nil, errors.NewInvalid(err, "Error loading configuration", op)
 	}
 	return config, nil
 }

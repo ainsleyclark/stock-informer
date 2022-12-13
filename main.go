@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"github.com/ainsleyclark/stock-informer/config"
+	"github.com/ainsleyclark/stock-informer/cron"
 	"log"
 )
 
@@ -15,6 +16,8 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	job := cron.New(cfg)
+	job.Boot()
 
 	fmt.Println(cfg)
 

@@ -49,7 +49,7 @@ func TestLoad(t *testing.T) {
 				assert.Contains(t, errors.Message(err), test.want)
 				return
 			}
-			assert.Equal(t, test.want, got)
+			assert.Equal(t, test.want, *got)
 		})
 	}
 }
