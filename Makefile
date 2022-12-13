@@ -27,6 +27,11 @@ cover: test # Run all the tests and opens the coverage report
 	go tool cover -html=coverage.out
 .PHONY: cover
 
+mock: # Make mocks keeping directory tree
+	rm -rf gen/mocks \
+	&& mockery --all --keeptree --exported=true --output=./mocks
+.PHONY: mock
+
 bench: # Runs benchmarks
 	go test -benchmem -bench .
 .PHONY: bench

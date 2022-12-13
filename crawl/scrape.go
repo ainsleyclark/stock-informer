@@ -12,7 +12,6 @@ import (
 	"github.com/ainsleyclark/stock-informer/httputil"
 	"io"
 	"net/http"
-	"net/url"
 )
 
 type (
@@ -29,7 +28,7 @@ type (
 		// could not make request or if the status code is not 200.
 		// Returns errors.INTERNAL if the document could not be parsed
 		// body could not be read.
-		Scrape(url string) (*Content, error)
+		Scrape(url, path string) (string, error)
 	}
 	// Content represents the data returned by the
 	// scrape of a URL.
@@ -58,38 +57,28 @@ func New() Scraper {
 	}
 }
 
-func (s *scrape) Scrape(uri string) (*Content, error) {
+func (s *scrape) Scrape(uri string, selector string) (string, error) {
 	const op = "Scraper.Scrape"
-
-	// Parse the URL
-	uriParsed, err := url.Parse(uri)
-	if err != nil {
-		return nil, errors.NewInvalid(err, "Bad URL", op)
-	}
 
 	response, err := s.client.Do(uri, http.MethodGet)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	if !httputil.Is2xx(response.Status) {
-		return nil, errors.NewInvalid(errors.New("bad status code"), fmt.Sprintf("Error scraping page, status code: %d", response.Status), op)
+		return "", errors.NewInvalid(errors.New("bad status code"), fmt.Sprintf("Error scraping page, status code: %d", response.Status), op)
 	}
 
 	// Load the HTML document from the reader.
-	d, err := s.newDocument(bytes.NewBuffer([]byte(response.Body)))
+	doc, err := s.newDocument(bytes.NewBuffer([]byte(response.Body)))
 	if err != nil {
-		return nil, errors.NewInternal(err, "Error creating goquery document", op)
+		return "", errors.NewInternal(err, "Error creating document", op)
 	}
 
-	doc := document{Doc: d, URL: uriParsed}
-	doc.Sanitise()
-	return &Content{
-		H1:          doc.H1(),
-		H2:          doc.H2(),
-		Title:       doc.Title(),
-		Description: doc.Description(),
-		Body:        doc.Body(),
-		SocialImage: doc.SocialImage(),
-	}, nil
+	el, err := doc.Find(selector).First().Html()
+	if err != nil {
+		return "", errors.NewInternal(err, "Error creating document", op)
+	}
+
+	return el, nil
 }
