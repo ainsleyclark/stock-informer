@@ -28,20 +28,27 @@ type (
 	// Client represents the data for sending
 	// notifications to the user.
 	Client struct {
-		cfg *config.Config
+		cfg      *config.Config
+		notify   *notify.Notify
+		sendFunc sendFunc
 	}
+	// sendFunc is the function used for notifying a user.
+	sendFunc func(ctx context.Context, subject, message string) error
 )
 
 // New instantiates a new Notifier client.
 func New(cfg *config.Config) *Client {
+	n := notify.New()
 	c := &Client{
-		cfg: cfg,
+		cfg:      cfg,
+		notify:   n,
+		sendFunc: n.Send,
 	}
 	if cfg.Notify.Email != nil {
-		notify.UseServices(c.email())
+		c.notify.UseServices(c.email())
 	}
 	if cfg.Notify.Slack != nil {
-		notify.UseServices(c.slack())
+		c.notify.UseServices(c.slack())
 	}
 	return c
 }
@@ -52,7 +59,7 @@ func New(cfg *config.Config) *Client {
 // Returns errors.INTERNAL if the message could not be sent.
 func (c *Client) Send(url, prev, now string) error {
 	const op = "Notify.Send"
-	err := notify.Send(
+	err := c.sendFunc(
 		context.Background(),
 		"Stock Informer - Element Changed",
 		fmt.Sprintf("Webpage changed for URL: %s, Previous contents: %s has changed to: %s", url, prev, now),
