@@ -13,12 +13,14 @@ import (
 
 type (
 	// Config represents the configuration for the application.
-	Config []MonitorURL
-	// MonitorURL represents a singular URL to monitor.
-	MonitorURL struct {
-		URL         string `yaml:"url"`
-		Path        string `yaml:"path"`
-		MonitorTime string `yaml:"monitor-time"`
+	Config struct {
+		URLs []URL `yaml:"urls"`
+	}
+	// URL represents a singular URL to monitor.
+	URL struct {
+		URL      string `yaml:"url"`
+		Path     string `yaml:"path"`
+		Schedule string `yaml:"schedule"`
 	}
 )
 
@@ -35,7 +37,7 @@ func Load(path string) (Config, error) {
 	config := Config{}
 	err = yaml.Unmarshal(bytes, &config)
 	if err != nil {
-		return nil, err
+		return Config{}, err
 	}
 	return config, nil
 }

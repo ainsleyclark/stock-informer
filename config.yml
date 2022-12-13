@@ -1,8 +1,0 @@
-- url: https://www.aersf.com/tokai-pack-white
-  selector: .sqs-block-button-element--medium.sqs-button-element--primary.sqs-block-button-element
-  monitor-time: 20s
-
-
-- url: "https://3090.com"
-  path: .myelement
-  monitor-time: 20s
