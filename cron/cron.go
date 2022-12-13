@@ -4,10 +4,28 @@
 
 package cron
 
-import "github.com/robfig/cron/v3"
+import (
+	"github.com/ainsleyclark/stock-informer/config"
+	"github.com/ainsleyclark/stock-informer/crawl"
+	"github.com/ainsleyclark/stock-informer/notify"
+	"github.com/robfig/cron/v3"
+)
 
 type (
 	Cron struct {
-		client cron.Cron
+		client   *cron.Cron
+		config   *config.Config
+		scraper  crawl.Scraper
+		notifier notify.Notifier
 	}
 )
+
+// New instantiates a new cron job.
+func New(cfg *config.Config) *Cron {
+	return &Cron{
+		client:   cron.New(),
+		config:   cfg,
+		scraper:  crawl.New(),
+		notifier: notify.New(),
+	}
+}
