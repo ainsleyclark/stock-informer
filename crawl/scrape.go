@@ -20,25 +20,15 @@ type (
 	Scraper interface {
 		// Scrape crawls a webpage obtaining content from the
 		// website by the given URL.
-		// A http.MethodGet request is made to the URL and the
-		// page is analysed for content providing a 200 response
-		// is returned.
+		// A http.MethodGet request is made to the URL and the page is
+		// analysed for the element by the given selector providing
+		// a 200 response is returned.
 		//
 		// Returns errors.INVALID if the URL failed to parse, the client
 		// could not make request or if the status code is not 200.
 		// Returns errors.INTERNAL if the document could not be parsed
 		// body could not be read.
 		Scrape(url, selector string) (string, error)
-	}
-	// Content represents the data returned by the
-	// scrape of a URL.
-	Content struct {
-		H1          string
-		H2          string
-		Title       string
-		Description string
-		Body        string
-		SocialImage string
 	}
 	// scrape implements the scraper interface for crawling URLs.
 	scrape struct {
@@ -75,6 +65,7 @@ func (s *scrape) Scrape(uri string, selector string) (string, error) {
 		return "", errors.NewInternal(err, "Error creating document", op)
 	}
 
+	// Find the first element in the DOM.
 	el, err := doc.Find(selector).First().Html()
 	if err != nil {
 		return "", errors.NewInternal(err, "Error creating document", op)

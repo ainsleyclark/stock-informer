@@ -5,6 +5,7 @@
 package job
 
 import (
+	"github.com/ainsleyclark/logger"
 	"github.com/ainsleyclark/stock-informer/cache"
 	"github.com/ainsleyclark/stock-informer/config"
 	"github.com/ainsleyclark/stock-informer/crawl"
@@ -57,14 +58,17 @@ func (c *Cron) Boot() {
 func (c *Cron) monitor(page config.Page) {
 	// Go and scrape the page and obtain the selector with
 	// the relevant selector.
+	logger.Debug("Sending request to:" + page.URL)
 	element, err := c.scraper.Scrape(page.URL, page.Selector)
 	if err != nil {
-		log.Println(err)
+		logger.WithError(err).Error()
+		return
 	}
 
-	// Retrieve the item in the cache
+	// Retrieve the item in the cache.
 	item, ok := c.cache.Get(page.URL)
 	if !ok {
+		logger.Debug("No cache item found with URL: " + page.URL)
 		c.cache.Set(page.URL, element, cache.RememberForever)
 		return
 	}
@@ -75,12 +79,14 @@ func (c *Cron) monitor(page config.Page) {
 	// If the element stored in the cache is not different
 	// to the one we have just crawled, bail.
 	if compare == element {
+		logger.Debug("No change found for URL: " + page.URL)
 		return
 	}
 
 	// Notify, the element has changed.
+	logger.Info("Element changed for URL: " + page.URL)
 	err = c.notifier.Notify()
 	if err != nil {
-		log.Println(err)
+		logger.WithError(err).Error()
 	}
 }
