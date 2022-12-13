@@ -7,13 +7,11 @@ package crawl
 import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/ainsleyclark/errors"
-	"github.com/krang-backlink/api/common/httputil"
-	mocks "github.com/krang-backlink/api/gen/mocks/common/httputil"
+	"github.com/ainsleyclark/stock-informer/httputil"
+	mocks "github.com/ainsleyclark/stock-informer/mocks/httputil"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
-	"os"
-	"path/filepath"
 	"testing"
 )
 
@@ -22,30 +20,11 @@ func TestNew(t *testing.T) {
 	assert.NotNil(t, got)
 }
 
-func ReadTestFile(t *testing.T, file string) []byte {
-	t.Helper()
-
-	wd, err := os.Getwd()
-	assert.NoError(t, err)
-
-	buf, err := os.ReadFile(filepath.Join(wd, "testdata", file))
-	assert.NoError(t, err)
-
-	return buf
-}
-
 var (
 	// testURL is the default URL used for scrape testing.
 	testURL = "https://google.com"
-	// defaultContent is the default content when scraped.
-	defaultContent = Content{
-		H1:          "h1",
-		H2:          "h2",
-		Title:       "title",
-		Description: "description",
-		Body:        "body h1 h2",
-		SocialImage: testURL + "/image",
-	}
+	// testElement is the default selector used for scrape testing.
+	testElement = ".element"
 )
 
 func TestScrape_Scrape(t *testing.T) {
@@ -54,10 +33,16 @@ func TestScrape_Scrape(t *testing.T) {
 		mock func(client *mocks.Client)
 		want any
 	}{
-		"Bad URL": {
-			"@#@#$$%$",
-			nil,
-			"Bad URL",
+		"OK": {
+			testURL,
+			func(client *mocks.Client) {
+				client.On("Do", testURL, http.MethodGet).
+					Return(&httputil.Response{
+						Status: http.StatusOK,
+						Body:   `<html><div class="element">Contents</div></html>`,
+					}, nil)
+			},
+			"Contents",
 		},
 		"Client Error": {
 			testURL,
@@ -75,61 +60,16 @@ func TestScrape_Scrape(t *testing.T) {
 			},
 			"Error scraping page, status code: 400",
 		},
-		"Simple": {
+		"No Element": {
 			testURL,
 			func(client *mocks.Client) {
 				client.On("Do", testURL, http.MethodGet).
-					Return(&httputil.Response{Status: http.StatusOK, Body: string(ReadTestFile(t, "simple.html"))}, nil)
+					Return(&httputil.Response{
+						Status: http.StatusOK,
+						Body:   "<html></html>",
+					}, nil)
 			},
-			defaultContent,
-		},
-		"No Quotes": {
-			testURL,
-			func(client *mocks.Client) {
-				client.On("Do", testURL, http.MethodGet).
-					Return(&httputil.Response{Status: http.StatusOK, Body: string(ReadTestFile(t, "no-quotes.html"))}, nil)
-			},
-			defaultContent,
-		},
-		"Empty": {
-			testURL,
-			func(client *mocks.Client) {
-				client.On("Do", testURL, http.MethodGet).
-					Return(&httputil.Response{Status: http.StatusOK, Body: string(ReadTestFile(t, "empty.html"))}, nil)
-			},
-			Content{},
-		},
-		"Variations": {
-			testURL,
-			func(client *mocks.Client) {
-				client.On("Do", testURL, http.MethodGet).
-					Return(&httputil.Response{Status: http.StatusOK, Body: string(ReadTestFile(t, "variations.html"))}, nil)
-			},
-			defaultContent,
-		},
-		"Dirty Content": {
-			testURL,
-			func(client *mocks.Client) {
-				client.On("Do", testURL, http.MethodGet).
-					Return(&httputil.Response{Status: http.StatusOK, Body: string(ReadTestFile(t, "dirty-content.html"))}, nil)
-			},
-			defaultContent,
-		},
-		"OG Image Variations": {
-			testURL,
-			func(client *mocks.Client) {
-				client.On("Do", testURL, http.MethodGet).
-					Return(&httputil.Response{Status: http.StatusOK, Body: string(ReadTestFile(t, "og-image.html"))}, nil)
-			},
-			Content{Title: "title", Description: "description", Body: "body", SocialImage: "https://krang.com/myimage.jpg"},
-		},
-		"Relative OG Image": {
-			testURL,
-			func(client *mocks.Client) {
-				client.On("Do", testURL, http.MethodGet).
-					Return(&httputil.Response{Status: http.StatusOK, Body: string(ReadTestFile(t, "relative-og-image.html"))}, nil)
-			},
-			Content{Title: "title", Description: "description", Body: "body", SocialImage: "https://google.com/img/test.jpg"},
+			"Error finding element with selector",
 		},
 	}
 
@@ -143,12 +83,12 @@ func TestScrape_Scrape(t *testing.T) {
 				client:      m,
 				newDocument: goquery.NewDocumentFromReader,
 			}
-			got, err := s.Scrape(test.url)
+			got, err := s.Scrape(test.url, testElement)
 			if err != nil {
 				assert.Contains(t, errors.Message(err), test.want)
 				return
 			}
-			assert.Equal(t, test.want, *got)
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
@@ -166,6 +106,6 @@ func TestScrape_Scrape_ErrorDocument(t *testing.T) {
 			return nil, errors.New("error")
 		},
 	}
-	_, err := s.Scrape(testURL)
-	assert.Contains(t, errors.Message(err), "Error creating goquery document")
+	_, err := s.Scrape(testURL, testElement)
+	assert.Contains(t, errors.Message(err), "Error reading document")
 }

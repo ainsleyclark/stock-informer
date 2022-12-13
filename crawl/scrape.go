@@ -62,13 +62,13 @@ func (s *scrape) Scrape(uri string, selector string) (string, error) {
 	// Load the HTML document from the reader.
 	doc, err := s.newDocument(bytes.NewBuffer([]byte(response.Body)))
 	if err != nil {
-		return "", errors.NewInternal(err, "Error creating document", op)
+		return "", errors.NewInternal(err, "Error reading document", op)
 	}
 
 	// Find the first element in the DOM.
 	el, err := doc.Find(selector).First().Html()
-	if err != nil {
-		return "", errors.NewInternal(err, "Error creating document", op)
+	if err != nil || el == "" {
+		return "", errors.NewInternal(err, "Error finding element with selector: "+selector, op)
 	}
 
 	return el, nil
