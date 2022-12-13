@@ -50,7 +50,8 @@ went wrong, how it went wrong and.
 ## Roadmap
 
 - Add `App Debug` to the configuration to hide or show the log debug messages.
-- Add more notifiers, [github.com/nikoksr/notify](https://github.com/nikoksr/notify) has been used as a package and there are an abundance of notification methods that can be used.
+- Add more notifiers, [github.com/nikoksr/notify](https://github.com/nikoksr/notify) has been used as a package and
+	there are an abundance of notification methods that can be used.
 
 ## Contributing
 
