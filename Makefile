@@ -16,12 +16,13 @@ lint: # Run linter
 .PHONY: lint
 
 test: # Test uses race and coverage
-	go clean -testcache && go test -race -coverprofile=coverage.out -covermode=atomic
+	go clean -testcache && go test -race $$(go list ./... | grep -v tests | grep -v res | grep -v mocks) -coverprofile=coverage.out -covermode=atomic
 .PHONY: test
 
 test-v: # Test with -v
-	go clean -testcache && go test -race -v $$(go list ./... | $(excluded)) -coverprofile=coverage.out -covermode=atomic
+	go clean -testcache && go test -race -v $$(go list ./... | grep -v tests | grep -v res | grep -v mocks) -coverprofile=coverage.out -covermode=atomic
 .PHONY: test-v
+
 
 cover: test # Run all the tests and opens the coverage report
 	go tool cover -html=coverage.out

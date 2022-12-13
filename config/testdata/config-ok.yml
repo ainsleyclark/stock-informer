@@ -1,0 +1,12 @@
+pages:
+  - url: https://test.com
+    selector: .div
+    schedule: 0 30 * * * *
+notify:
+  email:
+    address: smtp.gmail.com
+    user: hello@hello.com
+    password: password
+  slack:
+    token: token
+    channel_id: id

@@ -21,7 +21,7 @@ func TestLoad(t *testing.T) {
 		want  any
 	}{
 		"OK": {
-			filepath.Join(wd, "testdata", "config.yml"),
+			filepath.Join(wd, "testdata", "config-ok.yml"),
 			Config{
 				Pages: []Page{
 					{URL: "https://test.com", Selector: ".div", Schedule: "0 30 * * * *"},

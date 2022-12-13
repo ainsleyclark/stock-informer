@@ -1,0 +1,9 @@
+.gitignore
+.golangci.yml
+.goreleaser.yml
+codecov.yml
+coverage.out
+CREDENTIALS.md
+Makefile
+config.example.yml
+config.yml
