@@ -16,20 +16,21 @@ func main() {
 	// Create the logger.
 	opts := logger.NewOptions().
 		Service("Stock Informer").
-		Prefix("INFORMER")
+		Prefix("INFORMER").
+		DefaultStatus("LOG")
 	err := logger.New(context.Background(), opts)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	// Load the configuration file.
-	logger.Info("Loading configuration")
+	logger.Info("Loading Configuration")
 	cfg, err := config.Load("/Users/ainsley/Desktop/Web/apis/stock-informer/config.yml")
 	if err != nil {
 		logger.Fatal(err)
 	}
 
 	// Boot the cron job.
-	logger.Info("Booting informer")
+	logger.Info("Booting Informer")
 	job.New(cfg).Boot()
 }

@@ -53,12 +53,12 @@ func (c *Cron) Boot() {
 	c.scheduler.StartBlocking()
 }
 
-// Monitor monitors a webpage and notifies the user
+// Monitor detects a webpage and notifies the user
 // of any changes.
 func (c *Cron) monitor(page config.Page) {
 	// Go and scrape the page and obtain the selector with
 	// the relevant selector.
-	logger.Debug("Sending request to:" + page.URL)
+	logger.Debug("Sending request to: " + page.URL)
 	element, err := c.scraper.Scrape(page.URL, page.Selector)
 	if err != nil {
 		logger.WithError(err).Error()
@@ -74,18 +74,18 @@ func (c *Cron) monitor(page config.Page) {
 	}
 
 	// Cast to string
-	compare := item.(string)
+	prev := item.(string)
 
 	// If the element stored in the cache is not different
 	// to the one we have just crawled, bail.
-	if compare == element {
+	if prev == element {
 		logger.Debug("No change found for URL: " + page.URL)
 		return
 	}
 
 	// Notify, the element has changed.
-	logger.Info("Element changed for URL: " + page.URL)
-	err = c.notifier.Notify()
+	logger.Info("Element changed for URL: " + page.URL + ", sending message.")
+	err = c.notifier.Send(page.URL, prev, element)
 	if err != nil {
 		logger.WithError(err).Error()
 	}

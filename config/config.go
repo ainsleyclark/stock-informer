@@ -31,9 +31,9 @@ type (
 	// Email represents SMTP email credentials.
 	Email struct {
 		Address   string   `yaml:"address"`
+		Port      string   `yaml:"port"`
 		User      string   `yaml:"user"`
 		Password  string   `yaml:"password"`
-		Sender    string   `yaml:"sender"`
 		Receivers []string `yaml:"receivers"`
 	}
 	// Slack represents the Slack credentials configuration.
