@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [1.18.x]
+        go-version: [1.19.x]
     steps:
       # Step 1 - Checks-out your repository under $GITHUB_WORKSPACE
       - name: Checkout
