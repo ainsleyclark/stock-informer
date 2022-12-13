@@ -1,4 +1,4 @@
-urls:
+pages:
   - url: https://test.com
     selector: .div
     schedule: "0 30 * * * *

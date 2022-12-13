@@ -13,11 +13,11 @@ import (
 type (
 	// Config represents the configuration for the application.
 	Config struct {
-		URLs   []URL  `yaml:"urls"`
+		Pages  []Page `yaml:"pages"`
 		Notify Notify `yaml:"notify"`
 	}
-	// URL represents a singular URL to monitor.
-	URL struct {
+	// Page represents a singular Pages to monitor.
+	Page struct {
 		URL      string `yaml:"url"`
 		Selector string `yaml:"selector"`
 		Schedule string `yaml:"schedule"`
@@ -25,14 +25,16 @@ type (
 	// Notify represents the notification settings for when
 	// an element has changed in the DOM.
 	Notify struct {
-		Email Email `yaml:"email"`
-		Slack Slack `yaml:"slack"`
+		Email *Email `yaml:"email"`
+		Slack *Slack `yaml:"slack"`
 	}
 	// Email represents SMTP email credentials.
 	Email struct {
-		Address  string `yaml:"address"`
-		User     string `yaml:"user"`
-		Password string `yaml:"password"`
+		Address   string   `yaml:"address"`
+		User      string   `yaml:"user"`
+		Password  string   `yaml:"password"`
+		Sender    string   `yaml:"sender"`
+		Receivers []string `yaml:"receivers"`
 	}
 	// Slack represents the Slack credentials configuration.
 	Slack struct {

@@ -23,12 +23,12 @@ func TestLoad(t *testing.T) {
 		"OK": {
 			filepath.Join(wd, "testdata", "config.yml"),
 			Config{
-				URLs: []URL{
+				Pages: []Page{
 					{URL: "https://test.com", Selector: ".div", Schedule: "0 30 * * * *"},
 				},
 				Notify: Notify{
-					Email: Email{Address: "smtp.gmail.com", User: "hello@hello.com", Password: "password"},
-					Slack: Slack{Token: "token", ChannelID: "id"},
+					Email: &Email{Address: "smtp.gmail.com", User: "hello@hello.com", Password: "password"},
+					Slack: &Slack{Token: "token", ChannelID: "id"},
 				},
 			},
 		},
