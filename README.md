@@ -3,7 +3,7 @@
 
 [![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](http://golang.org)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ainsleyclark/stock-informer)](https://goreportcard.com/report/github.com/ainsleyclark/stock-informer)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b3afd7bf115341995077/maintainability)](https://codeclimate.com/github/ainsleyclark/stock-informer/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1662c0c688e78fa33a2c/maintainability)](https://codeclimate.com/github/ainsleyclark/stock-informer/maintainability)
 [![Test](https://github.com/ainsleyclark/stock-informer/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/ainsleyclark/stock-informer/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/ainsleyclark/stock-informer/branch/master/graph/badge.svg?token=K27L8LS7DA)](https://codecov.io/gh/ainsleyclark/stock-informer)
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/ainsleyclark/stock-informer)
