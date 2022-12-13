@@ -9,13 +9,13 @@ type Notifier struct {
 	mock.Mock
 }
 
-// Notify provides a mock function with given fields:
-func (_m *Notifier) Notify() error {
-	ret := _m.Called()
+// Send provides a mock function with given fields: url, prev, now
+func (_m *Notifier) Send(url string, prev string, now string) error {
+	ret := _m.Called(url, prev, now)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func() error); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(string, string, string) error); ok {
+		r0 = rf(url, prev, now)
 	} else {
 		r0 = ret.Error(0)
 	}

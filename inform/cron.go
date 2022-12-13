@@ -2,16 +2,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-package job
+package inform
 
 import (
+	"github.com/ainsleyclark/errors"
 	"github.com/ainsleyclark/logger"
 	"github.com/ainsleyclark/stock-informer/cache"
 	"github.com/ainsleyclark/stock-informer/config"
 	"github.com/ainsleyclark/stock-informer/crawl"
 	"github.com/ainsleyclark/stock-informer/notify"
 	"github.com/go-co-op/gocron"
-	"log"
 	"time"
 )
 
@@ -25,32 +25,34 @@ type (
 		config    *config.Config
 		scraper   crawl.Scraper
 		notifier  notify.Notifier
+		startFunc func()
 	}
 )
 
 // New instantiates a new cron job.
 func New(cfg *config.Config) *Cron {
+	schedule := gocron.NewScheduler(time.UTC)
 	return &Cron{
-		scheduler: gocron.NewScheduler(time.UTC),
+		scheduler: schedule,
 		cache:     cache.New(),
 		config:    cfg,
 		scraper:   crawl.New(),
 		notifier:  notify.New(cfg),
+		startFunc: schedule.StartBlocking,
 	}
 }
 
 // Boot starts the scheduler to start listening
 // and scraping the page.
 func (c *Cron) Boot() {
+	const op = "Inform.Boot"
 	for _, page := range c.config.Pages {
-		_, err := c.scheduler.Cron(page.Schedule).Do(func() {
-			c.monitor(page)
-		})
+		_, err := c.scheduler.Cron(page.Schedule).Do(c.monitor, page)
 		if err != nil {
-			log.Fatalln(err)
+			logger.WithError(errors.NewInvalid(err, "Error setting up cron job", op)).Error()
 		}
 	}
-	c.scheduler.StartBlocking()
+	c.startFunc()
 }
 
 // Monitor detects a webpage and notifies the user
@@ -79,14 +81,18 @@ func (c *Cron) monitor(page config.Page) {
 	// If the element stored in the cache is not different
 	// to the one we have just crawled, bail.
 	if prev == element {
-		logger.Debug("No change found for URL: " + page.URL)
+		logger.Debug("No change found for URL: " + page.URL + ", for element: " + element)
 		return
 	}
 
 	// Notify, the element has changed.
-	logger.Info("Element changed for URL: " + page.URL + ", sending message.")
+	logger.Info("Element changed for URL: " + page.URL + ", for element: " + element + ", sending message.")
 	err = c.notifier.Send(page.URL, prev, element)
 	if err != nil {
 		logger.WithError(err).Error()
+		return
 	}
+
+	// Update the cache.
+	c.cache.Set(page.URL, element, cache.RememberForever)
 }

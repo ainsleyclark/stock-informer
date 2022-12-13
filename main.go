@@ -8,7 +8,7 @@ import (
 	"context"
 	"github.com/ainsleyclark/logger"
 	"github.com/ainsleyclark/stock-informer/config"
-	"github.com/ainsleyclark/stock-informer/job"
+	"github.com/ainsleyclark/stock-informer/inform"
 	"log"
 )
 
@@ -32,5 +32,5 @@ func main() {
 
 	// Boot the cron job.
 	logger.Info("Booting Informer")
-	job.New(cfg).Boot()
+	inform.New(cfg).Boot()
 }
