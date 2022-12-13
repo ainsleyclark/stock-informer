@@ -12,6 +12,7 @@ import (
 	"github.com/ainsleyclark/stock-informer/crawl"
 	"github.com/ainsleyclark/stock-informer/notify"
 	"github.com/go-co-op/gocron"
+	"strings"
 	"time"
 )
 
@@ -71,6 +72,7 @@ func (c *Cron) monitor(page config.Page) {
 	item, ok := c.cache.Get(page.URL)
 	if !ok {
 		logger.Debug("No cache item found with URL: " + page.URL)
+		// TODO: Recursively call this function as there is no cache.
 		c.cache.Set(page.URL, element, cache.RememberForever)
 		return
 	}
@@ -80,13 +82,14 @@ func (c *Cron) monitor(page config.Page) {
 
 	// If the element stored in the cache is not different
 	// to the one we have just crawled, bail.
+	formatted := strings.TrimSpace(element)
 	if prev == element {
-		logger.Debug("No change found for URL: " + page.URL + ", for element: " + element)
+		logger.Debug("No change found for URL: " + page.URL + ", for element: " + formatted)
 		return
 	}
 
 	// Notify, the element has changed.
-	logger.Info("Element changed for URL: " + page.URL + ", for element: " + element + ", sending message.")
+	logger.Info("Element changed for URL: " + page.URL + ", for element: " + formatted + ", sending message.")
 	err = c.notifier.Send(page.URL, prev, element)
 	if err != nil {
 		logger.WithError(err).Error()
