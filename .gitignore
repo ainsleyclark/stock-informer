@@ -13,7 +13,6 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-
 node_modules
 
 # Editors
@@ -25,3 +24,7 @@ credentials.md
 
 # System Files
 .DS_Store
+
+# Project Specific
+config.yml
+./config.yml
