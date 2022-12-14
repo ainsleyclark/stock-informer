@@ -69,19 +69,21 @@ $ wget "https://github.com/ainsleyclark/stock-informer/releases/download/v0.0.1/
 
 #### Unzip
 
-Unzip the binary
-
 ```bash
 $ tar -xf informer_0.0.1_darwin_amd64.tar.gz && cd informer
 ```
 
-####
-Change configuration file.
+#### Configuration
+
+Change `config.example.yml` to `config.yml` and change to your liking.
 
 ### Run
 
-
-./informer
+```bash
+$ ./informer
+> [INFORMER] 2022-12-14 08:14:05 | LOG | [INFO] | [msg] Loading Configuration
+> [INFORMER] 2022-12-14 08:14:05 | LOG | [INFO] | [msg] Booting Informer
+```
 
 ### Docker
 
