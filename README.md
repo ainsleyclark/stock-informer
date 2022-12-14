@@ -26,7 +26,6 @@ else that tickles your pickle.
 
 ## Why?
 
-
 ## Installation
 
 Informer can either be run in Docker or using the prebuilt binaries in the releases section.
@@ -35,12 +34,47 @@ Informer can either be run in Docker or using the prebuilt binaries in the relea
 
 ### Docker
 
+**Login to GitHub Registry**
+
+For more information about logging in to the GitHub registry, see
+the [documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
+.
+
+Export your PAT token:
+
 ```bash
-docker pull ghcr.io/ainsleyclark/stock-informer:latest
+$ export CR_PAT=YOUR_TOKEN
 ```
 
+Sign in to the container registry service at `ghcr.io`.
 
+```bash
+$ echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+> Login Succeeded
+```
 
+**Pull the Docker Image**
+
+Head over to the [packages](https://github.com/ainsleyclark/stock-informer/pkgs/container/stock-informer) page and pull
+the latest image version to your local machine.
+
+```bash
+$ docker pull ghcr.io/ainsleyclark/stock-informer:0.0.1
+```
+
+**Run the Image**
+
+Running the image requires two required arguments/flags.
+
+- The path to the configuration file stored on the local machine, with the arg `v`.
+- The `-path` argument for the binary which should correlate to the path passed in. This will allow you to attach your
+	configuration file from your local machine to the docker image.
+
+```bash
+$ docker run -it --rm -v /path/to/config/config.yml:/mnt/config.yml ghcr.io/ainsleyclark/stock-informer:0.0.1 -path=/mnt/config.yml
+> [INFORMER] 2022-12-14 08:14:05 | LOG | [INFO] | [msg] Loading Configuration
+> [INFORMER] 2022-12-14 08:14:05 | LOG | [INFO] | [msg] Booting Informer
+```
 
 ## Configuration
 

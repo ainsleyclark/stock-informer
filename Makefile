@@ -46,7 +46,7 @@ docker-build: # Build the docker image
 docker-run: # Run the docker image
 	docker run -it --rm \
 		-v $(DIR)/config.yml:/mnt/config.yml \
-		-p 8010:8080 stock-informer \
+		-stock-informer \
 		-path=/mnt/config.yml
 .PHONY: docker-run
 
