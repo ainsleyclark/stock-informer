@@ -28,9 +28,45 @@ else that tickles your pickle.
 
 ## Installation
 
-Informer can either be run in Docker or using the prebuilt binaries in the releases section.
+Informer can either be run in Docker or using the prebuilt binaries in the releases section, information on both methods
+are shown below.
 
 ### Binary
+
+The following platforms that are supported are listed below. The examples used are for Darwin amd64, please change the
+release name if you intend to use a different OS.
+
+- Darwin amd64
+- Darin arm64
+- Linux amd64
+- Linux arm64
+- Windows amd64
+
+#### Download the Binary
+
+Head over to the [releases](https://github.com/ainsleyclark/stock-informer/releases/) page and download the relevant
+release to your operating system.
+
+```bash
+$ wget "https://github.com/ainsleyclark/stock-informer/releases/download/v0.0.1/informer_0.0.1_darwin_amd64.tar.gz"
+> ‘informer_0.0.1_darwin_amd64.tar.gz’ saved
+```
+
+#### Unzip
+
+Unzip the binary
+
+```bash
+$ tar -xf informer_0.0.1_darwin_amd64.tar.gz && cd informer
+```
+
+####
+Change configuration file.
+
+### Run
+
+
+./informer
 
 ### Docker
 
@@ -47,7 +83,7 @@ the latest image version to your local machine.
 $ docker pull ghcr.io/ainsleyclark/stock-informer:0.0.1
 ```
 
-**Run the Image**
+#### Run the Image
 
 Running the image requires two required arguments/flags.
 
@@ -107,3 +143,5 @@ Shout out to the incredible [Maria Letta](https://github.com/MariaLetta) for her
 ## Licence
 
 Code Copyright 2023 Stock Informer. Code released under the [MIT Licence](LICENSE).
+
+
