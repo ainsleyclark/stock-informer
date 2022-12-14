@@ -26,20 +26,21 @@ builds:
 dockers:
   - id: informer
     goos: linux
-    goarch: arm64
+    goarch: amd64
     ids:
       - informer
     image_templates:
       - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}"
     skip_push: false
-    dockerfile: ./docker/Dockerfile
+    dockerfile: ./docker/goreleaser.Dockerfile
     build_flag_templates:
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
       - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.url=https://github.com/ainsleyclark/stock-informer"
       - "--label=org.opencontainers.image.source=https://github.com/ainsleyclark/stock-informer"
-      - "--platform=linux/arm64"
+      - "--platform=linux/amd64"
 # Zip
 archives:
   - builds:
@@ -53,7 +54,7 @@ archives:
     files:
       - README.md
       - LICENSE
-      - .env.example
+      - config.example.yml
 checksum:
   name_template: 'checksums.txt'
   algorithm: sha256
@@ -64,6 +65,6 @@ changelog:
 release:
   github:
     owner: ainsleyclark
-    name: api
+    name: stock-informer
   name_template: "v{{.Version}}"
   draft: false

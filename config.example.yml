@@ -1,7 +1,7 @@
 pages:
-  - url: https://test.com
-    selector: .div
-    schedule: "0 30 * * * *
+  - url: https://test.com # URL to monitor
+    selector: .class-selector # DOM selector
+    schedule: "* * * * *" # Run every minute
 notify:
   email:
     address: smtp.gmail.com

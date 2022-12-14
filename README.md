@@ -17,25 +17,41 @@ else that tickles your pickle.
 
 ## Overview
 
-- ✅ A humble selection of errors codes that touches most bases.
-- ✅ User friendly error messages for returning via an API for example.
-- ✅ Operation support `(Struct.Method)` naming convention.
-- ✅ Retrieve call stacks as preformatted or as a string slice.
-- ✅ Generate HTTP response codes from all error types.
-- ✅ Extremely lightweight with no external dependencies.
+- ✅ Monitor multiple URLs to detect DOM changes.
+- ✅ Use a valid crontab selector to run monitoring jobs.
+- ✅ Integrates with SMTP email and Slack.
+- ✅ Easy use with Docker or running on bare metal.
+- ✅ Comprehensive HTTP client that follows redirects.
+- ✅ Extremely lightweight with few dependencies.
 
 ## Why?
 
-Errors are as important in your domain and application as the entities such as a User or Database. They should be
-treated as individual types. Not only do they give a clear meaning to the users of the application if something goes
-wrong, they can save hours of debugging time when used effectively.
-
-Coupled with consistent and effective use of a logging package, we are able to tell if something goes wrong, where it
-went wrong, how it went wrong and.
 
 ## Installation
 
+Informer can either be run in Docker or using the prebuilt binaries in the releases section.
+
+### Binary
+
+### Docker
+
+
 ## Configuration
+
+```yaml
+pages:
+  - url: https://test.com # URL to monitor
+    selector: .class-selector # DOM selector
+    schedule: "* * * * *" # Run every minute
+notify:
+  email:
+    address: smtp.gmail.com
+    user: hello@hello.com
+    password: password
+  slack:
+    token: token
+    channel_id: id
+```
 
 ### Pages
 
@@ -50,7 +66,10 @@ went wrong, how it went wrong and.
 ## Roadmap
 
 - Add `App Debug` to the configuration to hide or show the log debug messages.
-- Add more notifiers, [github.com/nikoksr/notify](https://github.com/nikoksr/notify) has been used as a package and there are an abundance of notification methods that can be used.
+- Add more notifiers, [github.com/nikoksr/notify](https://github.com/nikoksr/notify) has been used as a package and
+	there are an abundance of notification methods that can be used.
+- Call cron monitoring recursively to eradicate waiting for new change.
+- Validation on configuration struct.
 
 ## Contributing
 
