@@ -12,5 +12,4 @@ RUN go build -o informer
 # Run Stage
 FROM alpine:latest AS runtime
 COPY --from=build app/informer ./
-EXPOSE 8080
 ENTRYPOINT ["./informer"]
