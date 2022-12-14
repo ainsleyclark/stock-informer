@@ -34,25 +34,6 @@ Informer can either be run in Docker or using the prebuilt binaries in the relea
 
 ### Docker
 
-**Login to GitHub Registry**
-
-For more information about logging in to the GitHub registry, see
-the [documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
-.
-
-Export your PAT token:
-
-```bash
-$ export CR_PAT=YOUR_TOKEN
-```
-
-Sign in to the container registry service at `ghcr.io`.
-
-```bash
-$ echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
-> Login Succeeded
-```
-
 **Pull the Docker Image**
 
 Head over to the [packages](https://github.com/ainsleyclark/stock-informer/pkgs/container/stock-informer) page and pull
