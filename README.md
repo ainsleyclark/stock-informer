@@ -34,7 +34,11 @@ Informer can either be run in Docker or using the prebuilt binaries in the relea
 
 ### Docker
 
-**Pull the Docker Image**
+Docker images are located at
+the [packages](https://github.com/ainsleyclark/stock-informer/pkgs/container/stock-informer) page. Be sure to use the
+latest version number when pulling the image.
+
+#### Pull the Docker Image
 
 Head over to the [packages](https://github.com/ainsleyclark/stock-informer/pkgs/container/stock-informer) page and pull
 the latest image version to your local machine.
