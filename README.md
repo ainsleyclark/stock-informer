@@ -26,6 +26,10 @@ else that tickles your pickle.
 
 ## Why?
 
+In the ever-changing world of online shopping, sometimes it's merely impossible to get your favorite product. This tiny
+package allows you to monitor changes on the DOM to detect when a element has changed. It's not just limited to
+products, but anything you like.
+
 ```yaml
 pages:
   - url: https://test.com # URL to monitor
