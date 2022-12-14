@@ -204,7 +204,7 @@ help             Display this help
 
 ## Contributing
 
-Please feel free to make a pull request if you think something should be added to this package!
+We welcome contributors, but please read the [contributing document](CONTRIBUTING.md) before making a pull request.
 
 ## Credits
 
