@@ -58,11 +58,11 @@ are shown below.
 The following platforms that are supported are listed below. The examples used are for Darwin amd64, please change the
 release name if you intend to use a different OS.
 
-- Darwin amd64
-- Darin arm64
-- Linux amd64
-- Linux arm64
-- Windows amd64
+- `Darwin amd64`
+- `Darin arm64`
+- `Linux amd64`
+- `Linux arm64`
+- `Windows amd64`
 
 #### Download the Binary
 
