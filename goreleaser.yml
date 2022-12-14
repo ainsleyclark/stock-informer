@@ -32,7 +32,7 @@ dockers:
     image_templates:
       - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}"
     skip_push: false
-    dockerfile: ./docker/Dockerfile
+    dockerfile: ./docker/goreleaser.Dockerfile
     build_flag_templates:
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
@@ -53,7 +53,7 @@ archives:
     files:
       - README.md
       - LICENSE
-      - .env.example
+      - config.example.yml
 checksum:
   name_template: 'checksums.txt'
   algorithm: sha256
@@ -64,6 +64,6 @@ changelog:
 release:
   github:
     owner: ainsleyclark
-    name: api
+    name: stock-informer
   name_template: "v{{.Version}}"
   draft: false
