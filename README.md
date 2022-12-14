@@ -37,6 +37,21 @@ went wrong, how it went wrong and.
 
 ## Configuration
 
+```yaml
+pages:
+  - url: https://test.com # URL to monitor
+    selector: .class-selector # DOM selector
+    schedule: "* * * * *" # Run every minute
+notify:
+  email:
+    address: smtp.gmail.com
+    user: hello@hello.com
+    password: password
+  slack:
+    token: token
+    channel_id: id
+```
+
 ### Pages
 
 ### Notifiers
