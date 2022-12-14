@@ -162,6 +162,46 @@ self explanatory but all required.
 - Call cron monitoring recursively to eradicate waiting for new change.
 - Validation on configuration struct.
 
+## Development
+
+To set up the application for development first, clone the repository.
+
+```bash
+git clone https://github.com/ainsleyclark/stock-informer.git
+```
+
+Run the setup command to install the necessary dependencies for Krang.
+
+```bash
+make setup
+```
+
+### Makefile
+
+Common commands are detailed in the `Makefile` to list usage run:
+
+```bash
+make help
+
+setup            Setup dependencies
+run              Run
+dist             Creates and build dist folder
+format           Run gofmt
+lint             Run linter
+test             Test uses race and coverage
+test-v           Test with -v
+cover            Run all the tests and opens the coverage report
+docker-clean		 Removes the docker image
+docker-build 		 Builds the docker image
+docker-run			 Run the docker image
+mock             Generate mocks keeping directory tree
+bench						 Runs benchmarks
+doc              Runs go doc
+all              Make format, lint and test
+todo             Show to-do items per file
+help             Display this help
+```
+
 ## Contributing
 
 Please feel free to make a pull request if you think something should be added to this package!

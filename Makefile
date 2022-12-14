@@ -7,8 +7,13 @@ setup: # Setup dependencies
 .PHONY: setup
 
 run: # Run the app
-	go run main.go
+	go run main.go -path=$(DIR)/config.yml
 .PHONY: run
+
+dist: # Creates and build dist folder
+	goreleaser check
+	goreleaser release --rm-dist --snapshot
+.PHONY: dist
 
 format: # Run gofmt
 	go fmt ./...
@@ -30,16 +35,11 @@ cover: test # Run all the tests and opens the coverage report
 	go tool cover -html=coverage.out
 .PHONY: cover
 
-dist: # Creates and build dist folder
-	goreleaser check
-	goreleaser release --rm-dist --snapshot
-.PHONY: dist
-
 docker-clean: # Removes the docker image
 	docker image rm stock-informer
 .PHONY: docker-clean
 
-docker-build: # Build the docker image
+docker-build: # Builds the docker image
 	docker build -f ./docker/Dockerfile -t stock-informer .
 .PHONY: docker-build
 
@@ -50,7 +50,7 @@ docker-run: # Run the docker image
 		-path=/mnt/config.yml
 .PHONY: docker-run
 
-mock: # Make mocks keeping directory tree
+mock: # Generate mocks keeping directory tree
 	rm -rf gen/mocks \
 	&& mockery --all --keeptree --exported=true --output=./mocks
 .PHONY: mock
@@ -59,7 +59,7 @@ bench: # Runs benchmarks
 	go test -benchmem -bench .
 .PHONY: bench
 
-doc: # Run go doc
+doc: # Runs go doc
 	godoc -http localhost:8080
 .PHONY: doc
 
