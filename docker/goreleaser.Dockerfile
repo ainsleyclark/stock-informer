@@ -1,5 +1,6 @@
 # Run Stage
 FROM alpine:latest
 COPY informer /
+ARG path
 EXPOSE 8080
-CMD ["./krang", "start"]
+CMD ["./informer", "-path=$path"]
