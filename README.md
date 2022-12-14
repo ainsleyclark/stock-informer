@@ -35,6 +35,12 @@ Informer can either be run in Docker or using the prebuilt binaries in the relea
 
 ### Docker
 
+```bash
+docker pull ghcr.io/ainsleyclark/stock-informer:latest
+```
+
+
+
 
 ## Configuration
 
