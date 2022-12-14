@@ -23,10 +23,14 @@ test-v: # Test with -v
 	go clean -testcache && go test -race -v $$(go list ./... | grep -v tests | grep -v res | grep -v mocks) -coverprofile=coverage.out -covermode=atomic
 .PHONY: test-v
 
-
 cover: test # Run all the tests and opens the coverage report
 	go tool cover -html=coverage.out
 .PHONY: cover
+
+dist: # Creates and build dist folder
+	goreleaser check
+	goreleaser release --rm-dist --snapshot
+.PHONY: dist
 
 mock: # Make mocks keeping directory tree
 	rm -rf gen/mocks \
