@@ -12,6 +12,5 @@ RUN go build -o informer
 # Run Stage
 FROM alpine:latest AS runtime
 COPY --from=build app/informer ./
-ARG path
 EXPOSE 8080
-CMD ["./informer", "-path=$path"]
+ENTRYPOINT ["./informer"]

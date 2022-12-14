@@ -5,12 +5,14 @@
 package inform
 
 import (
+	"fmt"
 	"github.com/ainsleyclark/errors"
 	"github.com/ainsleyclark/logger"
 	"github.com/ainsleyclark/stock-informer/cache"
 	"github.com/ainsleyclark/stock-informer/config"
 	"github.com/ainsleyclark/stock-informer/crawl"
 	"github.com/ainsleyclark/stock-informer/notify"
+	"github.com/enescakir/emoji"
 	"github.com/go-co-op/gocron"
 	"strings"
 	"time"
@@ -52,6 +54,7 @@ func (c *Cron) Boot() {
 		if err != nil {
 			logger.WithError(errors.NewInvalid(err, "Error setting up cron job", op)).Error()
 		}
+		logger.Info(fmt.Sprintf("%v Monitoring page: %s %v Schedule: %s %v Selector: %s", emoji.GlobeWithMeridians, page.URL, emoji.Watch, page.Schedule, emoji.Pushpin, page.Selector))
 	}
 	c.startFunc()
 }

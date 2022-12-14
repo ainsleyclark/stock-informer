@@ -24,44 +24,13 @@ builds:
       - prod
 # Docker
 dockers:
-  - goos: darwin
+  - id: informer
+    goos: linux
     goarch: amd64
     ids:
       - informer
     image_templates:
-      - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}-darwin-amd64"
-    skip_push: false
-    dockerfile: ./docker/goreleaser.Dockerfile
-    build_flag_templates:
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--label=org.opencontainers.image.url=https://github.com/ainsleyclark/stock-informer"
-      - "--label=org.opencontainers.image.source=https://github.com/ainsleyclark/stock-informer"
-      - "--platform=darwin/amd64"
-  - goos: darwin
-    goarch: arm64
-    ids:
-      - informer
-    image_templates:
-      - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}-darwin-arm64"
-    skip_push: false
-    dockerfile: ./docker/goreleaser.Dockerfile
-    build_flag_templates:
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--label=org.opencontainers.image.url=https://github.com/ainsleyclark/stock-informer"
-      - "--label=org.opencontainers.image.source=https://github.com/ainsleyclark/stock-informer"
-      - "--platform=darwin/arm64"
-  - goos: linux
-    goarch: amd64
-    ids:
-      - informer
-    image_templates:
-      - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}-linux-amd64"
+      - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}"
     skip_push: false
     dockerfile: ./docker/goreleaser.Dockerfile
     build_flag_templates:
@@ -72,38 +41,6 @@ dockers:
       - "--label=org.opencontainers.image.url=https://github.com/ainsleyclark/stock-informer"
       - "--label=org.opencontainers.image.source=https://github.com/ainsleyclark/stock-informer"
       - "--platform=linux/amd64"
-  - goos: linux
-    goarch: arm64
-    ids:
-      - informer
-    image_templates:
-      - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}-linux-arm64"
-    skip_push: false
-    dockerfile: ./docker/goreleaser.Dockerfile
-    build_flag_templates:
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--label=org.opencontainers.image.url=https://github.com/ainsleyclark/stock-informer"
-      - "--label=org.opencontainers.image.source=https://github.com/ainsleyclark/stock-informer"
-      - "--platform=linux/arm64"
-  - goos: windows
-    goarch: amd64
-    ids:
-      - informer
-    image_templates:
-      - "ghcr.io/ainsleyclark/stock-informer:{{ .Version }}-windows-amd64"
-    skip_push: false
-    dockerfile: ./docker/goreleaser.Dockerfile
-    build_flag_templates:
-      - "--label=org.opencontainers.image.created={{.Date}}"
-      - "--label=org.opencontainers.image.title={{.ProjectName}}"
-      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-      - "--label=org.opencontainers.image.version={{.Version}}"
-      - "--label=org.opencontainers.image.url=https://github.com/ainsleyclark/stock-informer"
-      - "--label=org.opencontainers.image.source=https://github.com/ainsleyclark/stock-informer"
-      - "--platform=windows/amd64"
 # Zip
 archives:
   - builds:

@@ -1,3 +1,6 @@
+# Variables
+DIR=$(PWD)
+
 setup: # Setup dependencies
 	go mod tidy
 	go generate ./...
@@ -31,6 +34,21 @@ dist: # Creates and build dist folder
 	goreleaser check
 	goreleaser release --rm-dist --snapshot
 .PHONY: dist
+
+docker-clean: # Removes the docker image
+	docker image rm stock-informer
+.PHONY: docker-clean
+
+docker-build: # Build the docker image
+	docker build -f ./docker/Dockerfile -t stock-informer .
+.PHONY: docker-build
+
+docker-run: # Run the docker image
+	docker run -it --rm \
+		-v $(DIR)/config.yml:/mnt/config.yml \
+		-p 8010:8080 stock-informer \
+		-path=/mnt/config.yml
+.PHONY: docker-run
 
 mock: # Make mocks keeping directory tree
 	rm -rf gen/mocks \

@@ -39,7 +39,7 @@ func main() {
 
 	// Load the configuration file.
 	logger.Info("Loading Configuration")
-	cfg, err := config.Load("/Users/ainsley/Desktop/Web/apis/stock-informer/config.yml")
+	cfg, err := config.Load(*path)
 	if err != nil {
 		logger.Fatal(err)
 	}
