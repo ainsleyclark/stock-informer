@@ -38,8 +38,11 @@ pages:
 notify:
   email:
     address: smtp.gmail.com
+    port: 587
     user: hello@hello.com
     password: password
+    receivers:
+      - me@myemai.com
   slack:
     token: token
     channel_id: id
@@ -84,7 +87,7 @@ Change `config.example.yml` to `config.yml` and change to your liking.
 ### Run
 
 ```bash
-$ ./informer
+$ ./informer -path=/path/to/config/config.yml
 > [INFORMER] 2022-12-14 08:14:05 | LOG | [INFO] | [msg] Loading Configuration
 > [INFORMER] 2022-12-14 08:14:05 | LOG | [INFO] | [msg] Booting Informer
 ```
@@ -120,6 +123,9 @@ $ docker run -it --rm -v /path/to/config/config.yml:/mnt/config.yml ghcr.io/ains
 
 ## Configuration
 
+The configuration for the informer is super simple, you can see it below. The yaml file can be named whatever you want,
+but it must follow some conventions.
+
 ```yaml
 pages:
   - url: https://test.com # URL to monitor
@@ -128,8 +134,11 @@ pages:
 notify:
   email:
     address: smtp.gmail.com
+    port: 587
     user: hello@hello.com
     password: password
+    receivers:
+      - me@myemai.com
   slack:
     token: token
     channel_id: id
@@ -137,13 +146,13 @@ notify:
 
 ### Pages
 
+Pages is a collection of URLs to monitor. The URL is the page you want to monitor, the selector should be a valid CSS
+selector and the schedule is a crontab expression defining when the scrape should happen.
+
 ### Notifiers
 
-**Email**:
-
-**Slack**:
-
-## Docker
+Currently, SMTP email and Slack notifiers are supported, but there are more to come. The settings for each notifier are
+self explanatory but all required.
 
 ## Roadmap
 
